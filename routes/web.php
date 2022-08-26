@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('main');
 Route::view('/about', 'about')->name('about');
 Route::resource('articles', \App\Http\Controllers\ArticleController::class);
+Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+Route::resource('tags', \App\Http\Controllers\TagController::class);

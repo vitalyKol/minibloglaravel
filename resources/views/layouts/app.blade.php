@@ -15,6 +15,8 @@
         <div class="col text-center pt-5">
             <h1>BLOG</h1>
             <h5><a href="{{ route('main') }}">Main</a>
+                <a href="{{route('categories')}}">Categories</a>
+                <a href="{{route('tags')}}">Tags</a>
             <a href="{{ route('about') }}">About</a></h5>
         </div>
     </div>

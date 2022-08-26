@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <a href="{{route('articles.create')}}" class="btn btn-primary">Create new article +</a>
+                <a href="{{route('articles.create')}}" class="btn btn-primary mb-3">Create new article +</a>
                 <h3>All articles of this blog:</h3>
                 <ul>
                 @foreach($articles as $article)

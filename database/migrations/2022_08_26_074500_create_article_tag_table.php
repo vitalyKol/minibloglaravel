@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('article_tag', function (Blueprint $table) {
             $table->id();
-            $table->string('article_id');
-            $table->string('tag_id');
+            $table->foreignId('article_id')->nullable()->constrained();
+            $table->foreignId('tag_id')->nullable()->constrained();
         });
     }
 

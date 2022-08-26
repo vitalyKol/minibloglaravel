@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Create new title
+    Create a new article
 @endsection
 
 @section('content')

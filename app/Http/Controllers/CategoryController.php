@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -25,6 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+
         return view('categories.create');
     }
 
@@ -36,7 +38,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::table('categories')->insert([
+            'title' => $request->title
+        ]);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -58,7 +63,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return view('categories.edit', ['category' => $category, 'id' => $id]);
     }
 
     /**
@@ -70,7 +76,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('categories')->where('id', $id)->update([
+            'title' => $request->title
+        ]);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -81,6 +90,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->route('categories.index');
     }
 }

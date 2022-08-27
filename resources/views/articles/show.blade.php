@@ -10,6 +10,7 @@
             <div class="col">
                 <h2>{{$article->title}}</h2>
                 <h4>Category: {{$category}}</h4>
+                <img src="{{asset('/storage/'.$article->image)}}" class="w-50">
                 <p>
                     {{$article->text}}
                 </p>

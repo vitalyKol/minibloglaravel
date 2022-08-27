@@ -48,10 +48,19 @@ class ArticleController extends Controller
             'text' => 'required',
             'image' => 'nullable|image',
         ]);
-        $image = $request->file('image')->store('images');
-        dump($request->all());
-        dump($image);
+        if($request->hasFile('image')){
+            $folder = date('Y-m-d');
+            $image = $request->file('image')->store("images/{$folder}", 'public');
+        }
 
+        $article = Article::create([
+            'title' => $request->title,
+            'category_id' => $request->category,
+            'text' => $request->text,
+            'image' => $image ?? null,
+        ]);
+
+        return redirect()->route("articles.index");
     }
 
     /**
@@ -76,7 +85,10 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Article::find($id);
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('articles.edit', ['article' => $article, 'categories' => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -99,6 +111,8 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+        $article->delete();
+        return redirect()->route("articles.index");
     }
 }

@@ -19,6 +19,7 @@
                 @endif
                 <form action="{{route('articles.update', ['article' => $article->id])}}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method("PUT")
                     <div class="form-group mb-2">
                         <label for="title" class="form-label">Title of a new article:</label>
                         <input type="text" id="title" name="title" class="form-control" value="{{$article->title}}">
@@ -41,19 +42,27 @@
 
                         <div class="form-group mb-2">
                             <label for="tags" class="form-label">Choose tags:</label>
-                            <select name="tags" id="tags" class="form-select" multiple="multiple">
+                            <select name="tags[]" id="tags" class="form-select" multiple="multiple">
                                 @foreach($tags as $tag)
-                                    <option value="{{$tag->id}}">{{$tag->title}}</option>
+                                    @if(in_array($tag->id, $selectedTagsID))
+                                        <option value="{{$tag->id}}" selected>{{$tag->title}}</option>
+                                    @else
+                                        <option value="{{$tag->id}}">{{$tag->title}}</option>
+                                    @endif
+
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group mb-3">
+                            @if($article->image)
+                                <img src="{{asset('/storage/'.$article->image)}}" alt="img" class="w-25"><br>
+                            @endif
                             <label for="file" class="form-label">Choose img:</label><br>
                             <input type="file" name="image" id="file" class="form-control-file" value="{{$article->image}}">
                         </div>
 
-                        <input class='btn btn-primary' type="submit" value="Create new article">
+                        <input class='btn btn-primary' type="submit" value="Edit the article">
                 </form>
 
             </div>

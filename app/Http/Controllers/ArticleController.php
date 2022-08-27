@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -60,6 +61,8 @@ class ArticleController extends Controller
             'image' => $image ?? null,
         ]);
 
+        $article->tags()->sync($request->tags);
+
         return redirect()->route("articles.index");
     }
 
@@ -72,7 +75,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::with('tags')->find($id);
-        $category = $article->category->title;
+        $category = $article->category;
         $tags = $article->tags;
         return view('articles.show', ['article' => $article, 'category' => $category, 'tags' => $tags]);
     }
@@ -88,7 +91,13 @@ class ArticleController extends Controller
         $article = Article::find($id);
         $categories = Category::all();
         $tags = Tag::all();
-        return view('articles.edit', ['article' => $article, 'categories' => $categories, 'tags' => $tags]);
+
+        $selectedTagsID = [];
+
+        foreach($article->tags as $tag){
+            $selectedTagsID[] = $tag->id;
+        }
+        return view('articles.edit', ['article' => $article, 'categories' => $categories, 'tags' => $tags, 'selectedTagsID' => $selectedTagsID]);
     }
 
     /**
@@ -100,7 +109,33 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'category' => 'required|integer',
+            'text' => 'required',
+            'image' => 'nullable|image',
+        ]);
+
+        $article = Article::find($id);
+        if($request->hasFile('image')){
+            if($article->image){
+                Storage::disk('public')->delete($article->image);
+            }
+            $folder = date('Y-m-d');
+            $image = $request->file('image')->store("images/{$folder}", 'public');
+        }
+//                $article->tags()->sync([]);
+        $article->tags()->sync($request->tags);
+        $article = Article::where('id', $id)->update([
+            'title' => $request->title,
+            'category_id' => $request->category,
+            'text' => $request->text,
+            'image' => $image ?? $article->image ?? null,
+        ]);
+
+
+
+        return redirect()->route("articles.index");
     }
 
     /**
@@ -112,6 +147,10 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::find($id);
+        if($article->image){
+            Storage::disk('public')->delete($article->image);
+        }
+        $article->tags()->sync([]);
         $article->delete();
         return redirect()->route("articles.index");
     }

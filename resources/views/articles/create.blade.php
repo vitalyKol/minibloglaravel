@@ -8,7 +8,16 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <form action="{{route('articles.store')}}" method="post">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{route('articles.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-2">
                         <label for="title" class="form-label">Title of a new article:</label>
@@ -37,7 +46,7 @@
 
                     <div class="form-group mb-3">
                         <label for="file" class="form-label">Choose img:</label><br>
-                        <input type="file" name="file" id="file" class="form-control-file" >
+                        <input type="file" name="image" id="file" class="form-control-file" >
                     </div>
 
                     <input class='btn btn-primary' type="submit" value="Create new article">

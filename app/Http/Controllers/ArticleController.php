@@ -42,9 +42,16 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-
+        $request->validate([
+            'title' => 'required',
+            'category' => 'required',
+            'text' => 'required',
+            'image' => 'nullable|image',
+        ]);
+        $image = $request->file('image')->store('images');
         dump($request->all());
-        dump();
+        dump($image);
+
     }
 
     /**

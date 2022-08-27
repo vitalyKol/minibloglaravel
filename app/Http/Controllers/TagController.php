@@ -37,6 +37,10 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required'
+        ]);
+
         DB::table('tags')->insert([
            'title' => $request->title
         ]);
@@ -77,6 +81,10 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required'
+        ]);
+
         DB::table('tags')->where('id', $id)->update([
             'title' => $request->title
         ]);

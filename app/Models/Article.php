@@ -9,6 +9,8 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'category', 'text', 'image'];
+
     public function category(){
         return $this->belongsTo(Category::class);
     }

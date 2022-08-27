@@ -38,6 +38,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required'
+        ]);
+
         DB::table('categories')->insert([
             'title' => $request->title
         ]);
@@ -78,6 +82,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required'
+        ]);
+
         DB::table('categories')->where('id', $id)->update([
             'title' => $request->title
         ]);

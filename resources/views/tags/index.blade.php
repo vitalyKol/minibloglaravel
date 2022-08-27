@@ -12,9 +12,14 @@
                 <ul>
                     @foreach($tags as $tag)
                         <li>
-                            <a href="{{route('tags.edit', ['tag' => $tag->id])}}">{{$tag->title}}</a>
-                            <a href="{{route('tags.edit', ['tag' => $tag->id])}}" class="btn btn-warning ms-3 mb-2">Edit</a>
-                            <a href="#" class="btn btn-danger ms-1 mb-2">Delete</a>
+
+                            <form action="{{route('tags.destroy', ['tag' => $tag->id])}}" method="post">
+                                @csrf
+                                @method("DELETE")
+                                <a href="{{route('tags.edit', ['tag' => $tag->id])}}">{{$tag->title}}</a>
+                                <a href="{{route('tags.edit', ['tag' => $tag->id])}}" class="btn btn-warning ms-3 mb-2">Edit</a>
+                                <input type="submit" value="Delete" class="btn btn-danger ms-1 mb-2">
+                            </form>
                         </li>
                     @endforeach
                 </ul>

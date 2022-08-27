@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
@@ -36,7 +37,10 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::table('tags')->insert([
+           'title' => $request->title
+        ]);
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -58,7 +62,8 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tag = Tag::find($id);
+        return view('tags.edit', ['tag' => $tag, 'id' => $id]);
     }
 
     /**
@@ -70,7 +75,10 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('tags')->where('id', $id)->update([
+            'title' => $request->title
+        ]);
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -81,6 +89,8 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tag = Tag::find($id);
+        $tag->delete();
+        return redirect()->route('tags.index');
     }
 }

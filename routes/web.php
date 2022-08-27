@@ -18,3 +18,12 @@ Route::view('/about', 'about')->name('about');
 Route::resource('articles', \App\Http\Controllers\ArticleController::class);
 Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 Route::resource('tags', \App\Http\Controllers\TagController::class);
+Route::get('/login', function(){
+   \Illuminate\Support\Facades\Auth::loginUsingId(1);
+   return redirect('/');
+})->name('login');
+Route::get('/logout', function(){
+    \Illuminate\Support\Facades\Auth::logout();
+    return redirect('/');
+})->name('logout');
+

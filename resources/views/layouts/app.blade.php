@@ -14,10 +14,18 @@
     <div class="row">
         <div class="col text-center pt-5">
             <h1>BLOG</h1>
-            <h5><a href="{{ route('main') }}">Main</a>
+            <h5>
+                <a href="{{ route('main') }}">Main</a>
                 <a href="{{route('categories.index')}}">Categories</a>
                 <a href="{{route('tags.index')}}">Tags</a>
-            <a href="{{ route('about') }}">About</a></h5>
+                <a href="{{ route('about') }}">About</a>
+                @guest
+                    <a href="{{route('login')}}">Login</a>
+                @endguest
+                @auth
+                    <a href="{{route('logout')}}">Logout</a>
+                @endauth
+            </h5>
         </div>
     </div>
 </div>

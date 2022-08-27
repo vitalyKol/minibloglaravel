@@ -15,7 +15,7 @@
                             <form action="{{route('categories.destroy', ['category' => $category->id])}}" method="post">
                                 @csrf
                                 @method("DELETE")
-                                <a href="{{route('categories.edit', ['category' => $category->id])}}">{{$category->title}}</a>
+                                <a href="{{route('categories.show', ['category' => $category->id])}}">{{$category->title}}</a>
                                 <a href="{{route('categories.edit', ['category' => $category->id])}}" class="btn btn-warning ms-3 mb-2">Edit</a>
                                 <input type="submit" value="Delete" class="btn btn-danger ms-1 mb-2">
                             </form>
